@@ -42,7 +42,7 @@ public class fireProjectile : MonoBehaviour
         GameObject projectileInstance = Instantiate(projectile, firePoint.position, firePoint.rotation) as GameObject; 
 
         // initialize projectile's velocity to target's direction (I want the projectile to be able to do this in the projectile's own thing so FIX LATER) 
-        projectileInstance.GetComponent<projectileControl>().setVariables(target, gameObject.GetComponent<CharacterControl>().data); // set bullet to fire at player
+        projectileInstance.GetComponent<Projectile>().setVariables(target, gameObject.GetComponent<CharacterControl>().data); // set bullet to fire at player
     }
 
     public void playerFire()
@@ -51,7 +51,7 @@ public class fireProjectile : MonoBehaviour
         if(target != null)
         {
             GameObject projectileInstance = Instantiate(projectile, firePoint.position, firePoint.rotation) as GameObject;
-            projectileInstance.GetComponent<projectileControl>().setVariables(target, gameObject.GetComponent<CharacterControl>().data); // set bullet to fire at player
+            projectileInstance.GetComponent<Projectile>().setVariables(target, gameObject.GetComponent<CharacterControl>().data); // set bullet to fire at player
     
         }
         // initialize projectile's velocity to target's direction (I want the projectile to be able to do this in the projectile's own thing so FIX LATER) 

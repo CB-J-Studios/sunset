@@ -10,7 +10,7 @@ using UnityEngine;
 ///     This class requires a 'shooter' and a 'target' passed in to function correctly (TODO: figure out a way to require this for compilation)
 ///     The 'shooter' and 'target' should be passed in with the 'fireProjectile' class, which handles the 'weapon firing' operations
 /// </summary>
-public class projectileControl : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
 
     // TODO: convert these fields to data ScriptableObject so we can have different types of projectiles
@@ -25,7 +25,7 @@ public class projectileControl : MonoBehaviour
 
     private Vector2 startLocation;
     
-    private Rigidbody2D projectile;
+    private Rigidbody2D projectileBody;
     private CharacterData shooter;
     private GameObject target; 
 
@@ -41,14 +41,14 @@ public class projectileControl : MonoBehaviour
     void Start ()
     {
         // initializes private variables
-        projectile = GetComponent<Rigidbody2D>();
-        startLocation = projectile.position;
+        projectileBody = GetComponent<Rigidbody2D>();
+        startLocation = projectileBody.position;
 
         // these variables are passed in from 'projectileControl' (is there a way to require?)
         damage += shooter.damage;
-        Vector2 targetVector = (Vector2)target.transform.position - projectile.position; // find the vector in between target and the curren position
+        Vector2 targetVector = (Vector2)target.transform.position - projectileBody.position; // find the vector in between target and the curren position
                                                                                          // TODO: make trig to have bullet point in direction it's going in
-        projectile.velocity = targetVector.normalized * speed;  // moves towards player's direction
+        projectileBody.velocity = targetVector.normalized * speed;  // moves towards player's direction
 
         // TODO (eventually) make target selection a variable that you can set for ally units and yourself (fire on closest target, highest health, etc)
         // also figure out a way that doesn't involve an O(n) every time you fucking fire [maybe overhead isn't that bad with < 1000 targets]
@@ -67,9 +67,14 @@ public class projectileControl : MonoBehaviour
             
             if(character != null)
             {
-                
+                // apply effect
+                //IEffectable effectable = character.GetComponent<IEffectable>();
+                //if (effectable != null && _effectData.name != "NoEffect")
+                //    effectable.ApplyEffect(_effectData);
+
                 character.TakeDamage(damage);
             }
+
             Destroy(gameObject); // disappear once hit
 
         }
@@ -78,7 +83,7 @@ public class projectileControl : MonoBehaviour
     
     private void Update()
     {
-        if(Vector2.Distance(projectile.position, startLocation) > range)
+        if(Vector2.Distance(projectileBody.position, startLocation) > range)
         {
             Destroy(gameObject);
         } 
