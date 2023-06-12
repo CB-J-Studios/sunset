@@ -138,7 +138,13 @@ public class playerTouchMovement : MonoBehaviour
         //Player.transform.LookAt(Player.transform.position + scaledMovement, new Vector3(0,0,1)); // stg this is a memory leak but ig it handles it??
         //Debug.Log(MovementAmount.ToString());
         //Player.MovePosition(Player.position + MovementAmount * data.speed * Time.deltaTime); //rigidbody 2d movement ?
+        Quaternion rotation = Quaternion.LookRotation(MovementAmount);
+
+        
         CharacterData data = GetComponent<CharacterControl>().data;
+
+        // adjust player orientation (will also move weapon)
+        Player.rotation = Mathf.Atan2(MovementAmount.y, MovementAmount.x) * Mathf.Rad2Deg; // consider moving sprite to child and attaching another script to clamp     
         
         Player.velocity = MovementAmount * data.speed;
         //Debug.Log(Player.velocity);
