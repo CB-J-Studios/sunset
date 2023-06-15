@@ -12,6 +12,7 @@ using UnityEngine;
 /// </summary>
 public class Projectile : MonoBehaviour
 {
+    private List<StatusEffectBase> statusEffects = new List<StatusEffectBase>(); // list of statusEffects to apply
 
     // TODO: convert these fields to data ScriptableObject so we can have different types of projectiles
     [SerializeField]
@@ -67,10 +68,14 @@ public class Projectile : MonoBehaviour
             
             if(character != null)
             {
-                // apply effect
-                //IEffectable effectable = character.GetComponent<IEffectable>();
-                //if (effectable != null && _effectData.name != "NoEffect")
-                //    effectable.ApplyEffect(_effectData);
+                
+                IEffectable effectable = character.GetComponent<IEffectable>();
+                if (effectable != null )
+                {
+                    foreach (StatusEffectBase effect in statusEffects)
+                        effectable.ApplyEffect(effect);
+                }
+                   
 
                 character.TakeDamage(damage);
             }

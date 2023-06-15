@@ -11,6 +11,8 @@ public class EnemyControl : MonoBehaviour
 
     //private Transform target;
     // Start is called before the first frame update
+
+
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>(); // body is whatever it's attached to
